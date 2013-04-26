@@ -6,11 +6,11 @@
 
             <table class="table table-striped">
               <tr>
-                <th>Hand Reciept(Owner)</th>
-                <th>User</th>
-                <th>Inventory</th>
-                <th>Inventory status</th>
-                <th>Location</th>
+                <th><%= sortable("", "Hand Reciept(Owner)") %></th>
+                <th><%= sortable("users.display_name","User") %></th>
+                <th><%= sortable("inventories.name", "Inventory") %></th>
+                <th><%= sortable("inventory_statuses.name","Status") %></th>
+                <th><%= sortable("locations.name", "location") %></th>
                 <!-- 
                 <th>Latitude</th>
                 <th>Longitude</th>

@@ -530,3 +530,51 @@ defined a scope in user model called "no_hand_reciept_yet"
 This is out you reference to "no_hand_reciept_yet" in views\hand_reciepts\_form.html.erb
 
 <%= f.select(:user_id, User.no_hand_reciept_yet.map{|c|[c.display_name,c.id]})%>
+
+44. Added sort option on inventory records page.
+
+index: app\controllers\inventory_records_controller.rb
+params[:sort] ||= "created_at desc"
+
+45. Added sortable helper method in app\helpers\application_helper.rb
+  def sortable(column, title = nil)
+    title ||= column.titleize
+    direction = (column == params[:sort] && params[:direction] == "asc") ? "desc" : "asc"
+    link_to title, :sort => column, :direction => direction
+  end
+
+  <%= link_to "User", :sort =>"users.display_name %>
+  Replace with 
+  <%= sortable("users.display_name","User") %>
+
+  app\controllers\inventory_records_controller.rb
+
+  def index
+    @inventory_records = InventoryRecord.includes([:user, :inventory,:location, :inventory_status]).order(params[:sort] + ' ' + params[:direction])  
+  end
+
+# Re-factor the sortable method
+  
+  app\controllers\inventory_records_controller.rb
+
+  helper_method :sort_column, :sort_direction
+  def index
+    @inventory_records = InventoryRecord.includes([:user, :inventory,:location, :inventory_status]).order(sort_column + ' ' + sort_direction)  
+  end
+
+# In order to access those 2 method thru the view, we need to enable them to be accessable by the view, we need to call the helper_method to make them avaliable by view
+
+  private
+    def sort_column
+      params[:sort] ||= "created_at"
+    end
+    def sort_direction
+      params[:direction] ||= "desc"
+    end
+
+    app\helpers\application_helper.rb
+      def sortable(column, title = nil)
+    title ||= column.titleize
+    direction = (column == sort_column && sort_direction =="asc") ? "desc" : "asc"
+    link_to title.titleize, :sort => column, :direction => direction
+  end

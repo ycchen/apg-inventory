@@ -120,4 +120,18 @@ body {
 
 .flashes {
 	max-height: 40px;
-}      
+}
+
+.current{
+	padding-right: 12px;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+
+.asc {
+	background-image: url(/assets/up_arrow.gif);
+}
+
+.desc {
+	background-image: url(/assets/down_arrow.gif);
+}

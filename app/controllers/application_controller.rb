@@ -31,4 +31,5 @@ class ApplicationController < ActionController::Base
   def to_yes_no(val)
      val ? 'Yes' : 'No'
   end
+
 end

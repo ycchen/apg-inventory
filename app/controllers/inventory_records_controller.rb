@@ -1,6 +1,8 @@
 class InventoryRecordsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :isAdmin?
+  # make both method accessable by the view #
+  helper_method :sort_column, :sort_direction
   # GET /inventory_records
   # GET /inventory_records.json
   def index
@@ -9,7 +11,7 @@ class InventoryRecordsController < ApplicationController
     elsif params[:search]
       @inventory_records = InventoryRecord.search(params[:search])
     else
-      @inventory_records = InventoryRecord.order("created_at desc")
+        @inventory_records = InventoryRecord.includes([:user, :inventory,:location, :inventory_status]).order(sort_column + ' ' + sort_direction)  
     end
     
     
@@ -113,4 +115,21 @@ class InventoryRecordsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+private
+
+  def sort_column
+   # params[:sort] || "created_at" 
+   InventoryRecord.includes([:user, :inventory,:location, :inventory_status]).column_names.include?(params[:sort]) ? params[:sort] : "created_at"
+   # InventoryRecord.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
+  end
+
+  def sort_direction
+    # params[:direction] || "desc"
+    # this means sending an array of asc and desc. Check to see if this params[:direction] is include or not include
+    # if it is not include then it will set to default to desc
+    
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+  end
+
 end

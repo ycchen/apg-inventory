@@ -26,6 +26,12 @@ InventoryStatus.create!(name: "checked-in")
 InventoryStatus.create!(name: "checked-out")
 InventoryStatus.create!(name: "missing")
 InventoryStatus.create!(name: "deaccessioned")
+InventoryStatus.create!(name: "request turn-in")
+InventoryStatus.create!(name: "request transfer")
+InventoryStatus.create!(name: "request repair")
+InventoryStatus.create!(name: "repairing")
+
+
 
 # pre-populate categories data
 Category.create!(name: "Computer", description: "Computer related")
