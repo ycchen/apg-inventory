@@ -1,0 +1,38 @@
+<div class="root">
+    <div class="row">
+        <div class="span12">
+            <div class="grey-box">  
+              <p id="notice"><%= notice %></p>
+
+              <p>
+                <b>Brand:</b>
+                <%= @component_model.brand.name %>
+              </p>
+
+              <p>
+                <b>Name:</b>
+                <%= @component_model.name %>
+              </p>
+
+              <p>
+                <b>Description:</b>
+                <%= @component_model.description %>
+              </p>
+
+              <p>
+                <b>Training required:</b>
+                <%= to_yes_no(@component_model.training_required) %>
+              </p>
+
+              <p>
+                <b>Autocomplete:</b>
+                <%= @component_model.autocomplete %>
+              </p>
+
+
+              <%= link_to 'Edit', edit_component_model_path(@component_model) %> |
+              <%= link_to 'Back', component_models_path %>
+            </div>      
+        </div>
+    </div>
+</div>

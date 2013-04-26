@@ -1,0 +1,413 @@
+== Welcome to ARL-Inventory
+
+1. create arl-inventory application
+
+$ rails new arl-inventory
+
+2. added devise gem in Gemfile
+
+== User Model
+
+3. install devise gem
+
+$ rails g devise:install
+
+4. create user model
+
+$ rails g devise User
+
+* added :display_name field, and enable all of additional fields and indexes
+
+$ rails db:migrate
+
+* Updated appliction.html.erb with layout 
+
+* created flashes_helper in app\helpers\application_helper.rb
+
+def flashes_helper
+    results = []
+    flashes = [:alert, :error, :info, :notice, :success]
+
+    flashes.each do |name, msg|
+      hidden = "hide" if flash[name].blank?
+      results << content_tag(:div, content_tag(:p, flash[name]), class: "alert alter-#{name} #{hidden} alert-block").html_safe
+    end
+    results.join("").html_safe
+end
+
+* created title and show_title? method in \app\helpers\home_helper.rb
+
+def title(page_title, show_title=true)
+  content_for(:title){h(page_title.to_s)}
+  @show_title = show_title
+end
+
+def show_title?
+  @show_title
+end
+
+* add twitter bootstrap library to application.css and application.js 
+
+
+6. generated home controller
+
+$ rails g controller home index
+
+* update config\routes.rb point root to home#index
+
+7. generated inventory model
+
+$ rails g scaffold inventory stockenumber:string name:string description:text barcode:string purchase_date:date
+
+$ rails g scaffold inventory_status name:string
+
+$ rails g scaffold location name:string address:string latitude:float longitude:float
+
+$ rails g scaffold inventory_record user:references inventory:references inventory_status:references location:references latitude:string longitude:string 
+
+* Added relationship between all models and validations
+
+* models/user.rb
+
+  validates :email, :presence => true
+  validates :password, :presence => true
+  validates :password_confirmation, :presence => true
+  validates :display_name, :presence => true
+
+  has_many :inventory_records
+  has_many :inventories, :through => :inventory_records
+
+* models/inventory.rb
+  validates :barcode, :presence => true
+  validates :description, :presence => true
+  validates :name, :presence => true
+  validates :purchase_date, :presence => true
+
+* models/inventory_status.rb
+
+  validates :name, :presence => true
+  has_many :inventory_records
+
+* models/location.rb
+
+  validates :name, :presence => true
+  validates :latitude, :presence => true
+  validates :longitude, :presence => true
+
+  has_many :inventory_records
+
+* models/inventory_record.rb
+  
+  belongs_to :user
+  belongs_to :inventory
+  belongs_to :inventory_status
+  belongs_to :location
+
+== User model
+* Added avatar method
+
+def avatar
+  Gravatar.new(self.email).image_url  
+end
+
+8. generated pre-populate data set in db\seed.rb
+
+9. added RoutingError handler at the end of routes.rb
+
+* config\routes.rb
+
+match '*path(.:format)', :to=> 'application#routing_error'
+
+* controller\application_controller.rb
+
+def routing_error
+  render_not_found
+end
+
+def render_not_found
+  flash[:notice] = 'The object you tried to access does not exist!'
+  redirect_to root_path
+end
+
+10. added ActiveRecord::RecordNotFound handler
+
+* controller\application_controller.rb
+
+rescue_from ActiveRecord::RecordNotFound, :with => :render_not_found
+
+11. generated User view for customization
+
+$ rails g devise:views devise
+
+12. Added javascript to handle slidUp alert div in application.js
+
+$(function(){
+  $('.alert').delay(5000).slideUp('slow');
+});
+
+13. Added validation for InventoryRecord model and added more field in attr_accessible
+
+/*  
+    attr_accessible 
+
+    validates :user_id, :presence => true
+    validates :inventory_id, :presence => true
+    validates :inventory_status_id , :presence => true
+    validates :location_id, :presence => true
+*/
+
+14. Added "rolify", "cancan" gems to handle user roles
+
+* modified Gemfile
+* gem 'rolify' # role management
+* gem 'cancan' # authroization
+
+15. Create the Ability class from Cancan
+
+$ rails generate cancan:ability
+
+16. Create the Role class from rolify
+
+$ rails generate rolify:role
+
+17. Run migrations
+
+$ rake db:migrate
+
+Added "cancan" gem to handle user roles: cancan expect a curent_user method to exist in the controller, so we need to setup some authentication (such as Devise)
+
+* https://github.com/EppO/rolify/wiki/Tutorial
+
+* https://github.com/ryanb/cancan
+
+* http://www.tonyamoyal.com/2010/07/28/rails-authentication-with-devise-and-cancan-customizing-devise-controllers/
+
+* http://stackoverflow.com/questions/2170108/activerecordhasmanythroughassociationnotfounderror-in-usercontrollerwelcome
+
+/*********** this is replaced by using rolify gem
+
+14. Added typical users HABTM (Has and belongs to many) roles relationship
+
+$ rails g scaffold role name:string
+
+$ rake db:migrate
+
+$ rails g scaffold roles_users role:references user:references
+
+$ rake db:migrate
+
+15. Added relationship between user and role model
+
+* user model
+
+has_many :roles_users
+has_many :roles, :through => :roles_users
+
+* role model
+
+has_many :roles_users
+has_many :users, :through => :roles_users
+
+*****************/
+
+
+**************  READ THIS BEFORE ENABLE config.use_dynamic_shortcuts
+
+http://stackoverflow.com/questions/12672229/heroku-doesnt-work-rake-command-pgerror-error-relation-roles-does-no
+
+BY ENABLE config.use_dynamic_shortcuts will cause db:migrate raise exception of "could not find table roles", you will need to run db:migrate first then uncomment dynamic_shortcuts each time you want to initial the application
+
+http://danielboggs.com/articles/rails-authentication-and-user-management-continued
+
+**************
+
+18. enable dynamic shortcuts for user class (user.is_admin? like methods), uncomment "config.use_dynamic_shortcuts
+ " the line in 'config/initializers/rolify.rb'
+
+
+
+19. added gmaps4rails gem to Gemfile  for Google Maps for Rails
+
+https://github.com/apneadiving/Google-Maps-for-Rails
+
+http://learningpoint2.wordpress.com/2012/12/19/google-map-in-rails/
+
+gem 'gmaps4rails'
+
+* copy the assets to your app
+
+$ rails g gmaps4rails:install 
+
+* updated models\location.rb
+
+acts_as_gmappable :latitude => 'latitude', :longitude => 'longitude', :process_geocoding => :geocode?, :address => 'address', :normalized_address => 'address',:msg => "Sorry, not even Google could figure out where that is"
+
+  def geocode?
+    (!address.blank? && (latitude.blank? || longitude.blank?)) || address_changed?
+  end
+
+  def gmaps4rails_address
+  address     
+  end
+
+  def gmaps4rails_infowindow
+    "<h4>#{name}</h4>" << "<h4>#{address}</h4>"
+  end
+
+* Added @json = Location.all_to_gmaps4rails in controllers/location.rb
+
+* Added following in layout\application.html.erb at the footer area
+
+<%= yield :scripts %>
+
+* Added <%= gmaps4rails(@json) %> in views/locations/index.html.erb
+
+20. Added :unregistered scope in Inventory model modles\inventory.rb
+
+scope :unregistered, where("id NOT IN (select inventory_id from inventory_records where inventory_records.inventory_id = inventories.id)")
+
+* modified view\inventory\_form.html.erb to handle different params[:action] to user Inventory.all or Inventory.unregistered
+
+
+21. Added dashboard controller
+
+$ rails g controller dashboards show
+
+
+
+== debug
+
+http://guides.rubyonrails.org/debugging_rails_applications.html
+
+1. debug
+
+<%= debug @post %>
+
+2. to_yaml
+
+<%= simple_format @post.to_yaml %>
+
+3. inspect
+
+<%= @location.inspect %>
+
+
+22. Generated following models
+
+$ rails g scaffold category name:string description:text
+
+$ rails g scaffold brand name:string
+
+$ rails g scaffold group name:string description:text
+
+========= generate join models  =====================
+
+23. Generate user controller
+
+$ rails g controller Users index
+
+24. Added isAdmin? in controller\application_controller.rb
+
+  def isAdmin?
+    unless current_user && current_user.admin?
+        flash[:notice]= "You are not authorize to access this page!"
+        redirect_to root_path
+    end
+  end
+
+Add before_filter : isadmin? for all models controllers
+
+25. Added access restriction for controller - Added before_filter on all controllers that restrict only admin can get to it
+
+before_filter :authenticate_user!
+before_filter :isAdmin?
+
+26. Added pagination for all models using Kaminari gem
+
+Kaminari configuration options
+
+$ rails g kaminari:config # generated config/initializers/kaminari_confifg.rb file
+
+https://github.com/amatsuda/kaminari
+
+If you want to change default "per_page" value, you can do it on each model
+
+# Kaminari will crashed for ruby 1.9.3-p362, but works fine on ruby 1.9.3-p392
+
+class User < ActiveRecord::Base
+  paginates_per 10
+end
+
+http://railscasts.com/episodes/254-pagination-with-kaminari?view=asciicast
+
+27. Added inventory_categories model
+
+$ rails g model inventory_category inventory:references category:references
+
+$ rake db:migrate
+
+Added relationship between category, inventory, and inventory_category models
+
+# category model 
+has_many :inventory_categorys
+has_many :inventories, :through => :inventory_categorys
+
+# inventory model
+has_many :inventory_categorys
+has_many :categories, :though => :inventory_categorys
+
+# inventory_category model
+belongs_to :inventory
+belongs_to :category
+
+Added following method to \models\inventory.rb, and added :category_ids in attr_accessible
+
+def category_ids=(params)
+  self.categories =[]
+  params.each do |id|
+    unless id.to_s.empty?
+      category = Category.find(id)
+      categories << category
+    end
+    save
+  end
+end
+
+28. Updated seed.rb file for pre-populate inventory data with assigned categories.
+
+Multiple select box #1
+
+<%= f.collection_select(:inventory_id, Inventory.unregistered, :id, :name, {include_blank: true}, {multiple: true}) %>
+
+Multiple select box #2
+
+<%= f.select(:inventory_id, Inventory.unregistered.collect{|x| [x.name, x.id]}, {}, {:multiple => true, :size => 10}) %>
+
+Multiple select box #3
+
+<%= select_tag("inventory_record[inventory_id][]", options_from_collection_for_select(Inventory.unregistered,"id", "name"), :multiple => true) %>
+
+
+Checkboxes
+
+<% Inventory.unregistered.each do |item| %>
+  <%= check_box_tag "inventory_record[inventory_id][]", item.id %>
+  <%= lable_tag dom_id(ite), item.name %>
+<% end %>
+
+
+29. Generate Unique Random string in ruby
+$ require 'securerandom'
+$ SecureRandom.hex(13)
+$ SecureRandom.hex(15)
+$ SecureRandom.hex(32)
+
+api_string = Array.new(32){rand(36).to_s(36)}.join
+
+ActiveSupport::SecureRandom.hex(32)
+
+30. Added handreciept model/controller/view
+$ rails g scaffold hand_reciept reciept:string user:references
+
+31. Added handreciept_detail model/controller/view
+$ rails g scaffold handreciept_detail hand_reciept:references inventory:references starts_at:datetime ends_at:datetime out_at:datetime in_at:datetime out_assistant_id:integer in_assistant_id:integer request_note:text approver_id:integer approval_note:text location:references inventory_status:references

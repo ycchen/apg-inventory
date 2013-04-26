@@ -1,0 +1,31 @@
+<h1>Listing hand_reciept_details</h1>
+
+<table>
+  <tr>
+    <th>Hand reciept</th>
+    <th>Inventory</th>
+    <th>Inventory status</th>
+    <th>Location</th>
+    <th>User</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @hand_reciept_details.each do |hand_reciept_detail| %>
+  <tr>
+    <td><%= hand_reciept_detail.hand_reciept %></td>
+    <td><%= hand_reciept_detail.inventory %></td>
+    <td><%= hand_reciept_detail.inventory_status %></td>
+    <td><%= hand_reciept_detail.location %></td>
+    <td><%= hand_reciept_detail.user %></td>
+    <td><%= link_to 'Show', hand_reciept_detail %></td>
+    <td><%= link_to 'Edit', edit_hand_reciept_detail_path(hand_reciept_detail) %></td>
+    <td><%= link_to 'Destroy', hand_reciept_detail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Hand reciept detail', new_hand_reciept_detail_path %>

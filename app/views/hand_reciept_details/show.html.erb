@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Hand reciept:</b>
+  <%= @hand_reciept_detail.hand_reciept %>
+</p>
+
+<p>
+  <b>Inventory:</b>
+  <%= @hand_reciept_detail.inventory %>
+</p>
+
+<p>
+  <b>Inventory status:</b>
+  <%= @hand_reciept_detail.inventory_status %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @hand_reciept_detail.location %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @hand_reciept_detail.user %>
+</p>
+
+
+<%= link_to 'Edit', edit_hand_reciept_detail_path(@hand_reciept_detail) %> |
+<%= link_to 'Back', hand_reciept_details_path %>

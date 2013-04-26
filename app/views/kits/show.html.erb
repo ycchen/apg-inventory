@@ -1,0 +1,43 @@
+<div class="root">
+    <div class="row">
+        <div class="span12">
+            <div class="grey-box">  
+              <p id="notice"><%= notice %></p>
+
+              <p>
+                <b>Location:</b>
+                <%= @kit.location.name %>
+              </p>
+
+              <p>
+                <b>Budget:</b>
+                <%= @kit.budget.name %>
+              </p>
+
+              <p>
+                <b>Tombstoned:</b>
+                <%= @kit.tombstoned %>
+              </p>
+
+              <p>
+                <b>Checkoutable:</b>
+                <%= @kit.checkoutable %>
+              </p>
+
+              <p>
+                <b>Cost:</b>
+                <%= number_to_currency(@kit.cost) %>
+              </p>
+
+              <p>
+                <b>Insured:</b>
+                <%= to_yes_no(@kit.insured) %>
+              </p>
+
+
+              <%= link_to 'Edit', edit_kit_path(@kit) %> |
+              <%= link_to 'Back', kits_path %>
+            </div>      
+        </div>
+    </div>
+</div>

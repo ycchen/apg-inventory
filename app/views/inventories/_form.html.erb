@@ -1,0 +1,60 @@
+<%= form_for(@inventory , :html => {:class => 'form-horizontal'}) do |f| %>
+  <% if @inventory.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@inventory.errors.count, "error") %> prohibited this inventory from being saved:</h2>
+
+      <ul>
+      <% @inventory.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name , :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :stocknumber, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :stocknumber, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 10 %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :barcode, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :barcode, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :purchase_date, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.date_select :purchase_date %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :Categories, :class => 'control-label' %>
+    <% for category in Category.all %>
+      <div class="controls">
+        <%= check_box_tag "inventory[category_ids][]",
+                        category.id,
+                        @inventory.categories.include?(category) %>
+                        <%= category.name %>
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="form-actions">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

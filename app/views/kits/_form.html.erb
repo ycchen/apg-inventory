@@ -1,0 +1,54 @@
+<%= simple_form_for(@kit , :html => {:class => 'form-horizontal'}) do |f| %>
+  <% if @kit.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@kit.errors.count, "error") %> prohibited this kit from being saved:</h2>
+
+      <ul>
+      <% @kit.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :location , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.association :location, :label => false, :prompt => 'Select location',:class  => 'text_field'  %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :budget , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.association  :budget , :label => false, :prompt => 'Select Budget', :class => 'text_field'%>
+    
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :tombstoned , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.check_box :tombstoned , :class => 'text_field'%>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :checkoutable , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.check_box :checkoutable , :class => 'text_field'%>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :cost , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.text_field :cost , :class => 'text_field'%>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :insured , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.check_box :insured , :class => 'text_field'%>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

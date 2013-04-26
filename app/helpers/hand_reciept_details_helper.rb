@@ -1,0 +1,2 @@
+module HandRecieptDetailsHelper
+end

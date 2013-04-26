@@ -1,0 +1,39 @@
+<div class="root">
+  <div class="row">
+    <div class="span12">
+      <div class="grey-box">
+        <h3>Listing appointments</h3>
+
+        <table class="table table-striped">
+          <tr>
+            <th>Physician</th>
+            <th>Patient</th>
+            <th>Appt date</th>
+            <th>Appt time</th>
+            <th>Note</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+
+        <% @appointments.each do |appointment| %>
+          <tr>
+            <td><%= appointment.physician %></td>
+            <td><%= appointment.patient %></td>
+            <td><%= appointment.appt_date %></td>
+            <td><%= appointment.appt_time %></td>
+            <td><%= appointment.note %></td>
+            <td><%= link_to 'Show', appointment %></td>
+            <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
+            <td><%= link_to 'Destroy', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+        </table>
+
+        <br />
+
+        <%= link_to 'New Appointment', new_appointment_path %>
+      </div>
+    </div>
+  </div>
+</div>

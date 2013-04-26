@@ -1,0 +1,33 @@
+
+<div class="root">
+  <div class="row">
+      <div class="span12">
+          <div class="grey-box">
+
+          <h3>Listing physicians</h3>
+
+          <table class="table table-striped">
+            <tr>
+              <th>Name</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+
+          <% @physicians.each do |physician| %>
+            <tr>
+              <td><%= physician.name %></td>
+              <td><%= link_to 'Show', physician %></td>
+              <td><%= link_to 'Edit', edit_physician_path(physician) %></td>
+              <td><%= link_to 'Destroy', physician, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+          <% end %>
+          </table>
+
+          <br />
+
+          <%= link_to 'New Physician', new_physician_path %>
+      </div>      
+    </div>
+  </div>
+</div>

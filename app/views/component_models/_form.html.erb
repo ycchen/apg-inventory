@@ -1,0 +1,50 @@
+<%= simple_form_for(@component_model, :html => {:class => 'form-horizontal'}) do |f| %>
+  <% if @component_model.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@component_model.errors.count, "error") %> prohibited this component_model from being saved:</h2>
+
+      <ul>
+      <% @component_model.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :brand , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.association :brand, :label => false, :prompt => 'Select brand', :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :name , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.input :name, :label => false, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :description , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.text_area :description, rows: 10, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :training_required , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.input :training_required, 
+                :label => false, 
+                :as => :radio_buttons, 
+                :item_wrapper_class => 'inline'%>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :autocomplete , :class => 'control-label' %>
+    <div class="controls">
+    <%= f.text_field :autocomplete, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

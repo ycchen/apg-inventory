@@ -1,0 +1,36 @@
+<div class="root">
+  <div class="row">
+    <div class="span12">
+      <div class="grey-box">
+		<p id="notice"><%= notice %></p>
+
+		<p>
+		  <b>Physician:</b>
+		  <%= @appointment.physician %>
+		</p>
+
+		<p>
+		  <b>Patient:</b>
+		  <%= @appointment.patient %>
+		</p>
+
+		<p>
+		  <b>Appt date:</b>
+		  <%= @appointment.appt_date %>
+		</p>
+		<p>
+		  <b>Appt time:</b>
+		  <%= @appointment.appt_time %>
+		</p>
+		<p>
+		  <b>Note:</b>
+		  <%= @appointment.note %>
+		</p>
+
+
+		<%= link_to 'Edit', edit_appointment_path(@appointment) %> |
+		<%= link_to 'Back', appointments_path %>
+      </div>
+    </div>
+  </div>
+</div>

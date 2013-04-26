@@ -1,0 +1,18 @@
+<div class="root">
+	<div class="row">
+		<div class="span12">
+			<div class="grey-box">				
+				<p id="notice"><%= notice %></p>
+
+				<p>
+				  <b>Name:</b>
+				  <%= @physician.name %>
+				</p>
+
+
+				<%= link_to 'Edit', edit_physician_path(@physician) %> |
+				<%= link_to 'Back', physicians_path %>
+        	</div>      
+    	</div>
+	</div>
+</div>

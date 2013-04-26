@@ -1,0 +1,39 @@
+<div class="root">
+    <div class="row">
+        <div class="span12">
+            <div class="grey-box"> 
+                <h3>Listing component_models</h3>
+
+                <table class="table table-striped">
+                  <tr>
+                    <th>Brand</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Training required</th>
+                    <th>Autocomplete</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+
+                <% @component_models.each do |component_model| %>
+                  <tr>
+                    <td><%= component_model.brand.name %></td>
+                    <td><%= component_model.name %></td>
+                    <td><%= component_model.description %></td>
+                    <td><%= to_yes_no(component_model.training_required) %></td>
+                    <td><%= component_model.autocomplete %></td>
+                    <td><%= link_to 'Show', component_model %></td>
+                    <td><%= link_to 'Edit', edit_component_model_path(component_model) %></td>
+                    <td><%= link_to 'Destroy', component_model, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+                </table>
+
+                <br />
+
+                <%= link_to 'New Component model', new_component_model_path %>
+            </div>      
+        </div>
+    </div>
+</div>

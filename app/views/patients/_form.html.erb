@@ -1,0 +1,37 @@
+<%= form_for(@patient, :html => {:class => 'form-horizontal'}) do |f| %>
+  <% if @patient.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
+
+      <ul>
+      <% @patient.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+    <%= f.text_field :name %>
+    </div>
+  </div>
+  <!-- 
+    <%=  f.fields_for :physicians do |builder| %>
+      <div class="control-group">
+        <%= builder.label :name, "Physician Name" , :class => 'control-label' %>
+        <%#= builder.text_field :name %>
+        <div class="controls">
+        <%= builder.collection_select(:id, Physician.all, :id, :name) %>
+        </div>
+      </div>
+    <% end %>
+
+ -->
+
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

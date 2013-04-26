@@ -1,0 +1,37 @@
+<%= form_for(@hand_reciept_detail) do |f| %>
+  <% if @hand_reciept_detail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hand_reciept_detail.errors.count, "error") %> prohibited this hand_reciept_detail from being saved:</h2>
+
+      <ul>
+      <% @hand_reciept_detail.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :hand_reciept %><br />
+    <%= f.text_field :hand_reciept %>
+  </div>
+  <div class="field">
+    <%= f.label :inventory %><br />
+    <%= f.text_field :inventory %>
+  </div>
+  <div class="field">
+    <%= f.label :inventory_status %><br />
+    <%= f.text_field :inventory_status %>
+  </div>
+  <div class="field">
+    <%= f.label :location %><br />
+    <%= f.text_field :location %>
+  </div>
+  <div class="field">
+    <%= f.label :user %><br />
+    <%= f.text_field :user %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
