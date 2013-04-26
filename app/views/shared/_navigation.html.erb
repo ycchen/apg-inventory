@@ -20,11 +20,19 @@
 					          <li><a href="<%= "#{inventories_path}" %>">Inventory</a></li>
 					          <li><a href="<%= "#{inventory_records_path}" %>">Inventory Records</a></li>
 					          <li><%= link_to "Hand Reciept", hand_reciepts_path %></li>
+			                	<li><%= link_to "Kits", kits_path %></li>
+			                	<li><%= link_to "Component Model ", component_models_path %></li>
 			                <li class="divider"></li>
 			                <li class="nav-header">Admin</li>
-			                <li><a href="<%= "#{inventory_statuses_path}" %>">Inventory Status</a></li>
+			                <li><a href="<%= "#{physicians_path}" %>">Physicians</a></li>
+			                <li><a href="<%= "#{patients_path}" %>">Patients</a></li>
+			                <li><a href="<%= "#{appointments_path}" %>">Appointments</a></li>
+			                <li><a href="<%= "#{inventory_statuses_path}" %>">
+			                	Inventory Status</a></li>
 					        <li><a href="<%= "#{locations_path}" %>">Locations</a></li>
 					        <li><a href="<%= "#{categories_path}" %>">Categories</a></li>
+					        <li><a href="<%= "#{budgets_path}" %>">Budgets</a></li>
+
 					        <li><a href="<%= "#{brands_path}" %>">Brands</a></li>
 					        <li><a href="<%= "#{roles_path}" %>">Roles</a></li>
 					        <li><a href="<%= "#{all_users_path}" %>">Users</a></li>

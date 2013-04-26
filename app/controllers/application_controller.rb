@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   end
   
   # helper_method :admin?
+  helper_method :to_yes_no
 
 	def routing_error
 		render_not_found('The object you tried to access does not exist!')
@@ -25,5 +26,9 @@ class ApplicationController < ActionController::Base
         flash[:notice]= "You are not authorize to access this page!"
         redirect_to root_path
     end
+  end
+
+  def to_yes_no(val)
+     val ? 'Yes' : 'No'
   end
 end

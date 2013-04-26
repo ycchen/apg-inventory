@@ -409,5 +409,108 @@ ActiveSupport::SecureRandom.hex(32)
 30. Added handreciept model/controller/view
 $ rails g scaffold hand_reciept reciept:string user:references
 
+/*
 31. Added handreciept_detail model/controller/view
 $ rails g scaffold handreciept_detail hand_reciept:references inventory:references starts_at:datetime ends_at:datetime out_at:datetime in_at:datetime out_assistant_id:integer in_assistant_id:integer request_note:text approver_id:integer approval_note:text location:references inventory_status:references
+*/
+
+apg
+
+32. Generated models
+$ rails g scaffold component_model brand:references name:string description:text training_required:boolean autocomplete:string
+
+$ rails g scaffold budget name:string number:string starts_at:date ends_at:date
+
+$ rails g scaffold kit location:references budget:references tombstoned:boolean checkoutable:boolean cost:decimal insured:boolean
+
+$ rails g scaffold component kit:references component_model:references asset_tag:string serial_number:string barcode:string 
+
+regenerated schema.rb
+
+$ rake db:schema:dump
+
+33. Added validations for budget model
+
+custom method validation for date range
+
+validate :starts_at_must_be_before_ends_at, :fields =>[:starts_at, :ends_at]
+
+def starts_at_must_be_before_ends_at
+  errors.add(:starts_at, "must be before ends_at") unless starts_at < ends_at
+end
+
+34. Added nested_form gem
+
+$ rails g nested_form:install
+
+change_column :products, :price, :decimal, :precision => 6, :scale => 2
+
+35. Added draper gem for model/view decorators (presenters)
+
+$ rails g resource Article
+$ rails g decorator kit
+
+
+http://railscasts.com/episodes/17-habtm-checkboxes?view=asciicast
+
+36. product[category_ids][]
+
+to check if the product[category_ids][] is pass in the update method do this
+This will set the params[:product][:category_ids][] to an empty [] array, if the params[:product][:category_ids][] does not pass in
+
+def update
+  params[:product][:category_ids][] ||=[]
+end
+
+params[:product][:category_ids][] will only generate from has_and_belongs_to_many, if we set up as has_many :through, we will have to generate category_ids manually.
+
+37. Generated hand_reciepts_inventories model
+
+$ rails g scaffold hand_reciept_details hand_reciept:references inventory:references inventory_status:references location:references user:references
+
+$ rake db:migrate
+
+Nested_form example
+
+http://stackoverflow.com/questions/9649063/autocomplete-using-nested-form-on-has-many-through-relationship
+
+http://stackoverflow.com/questions/11305133/rails-nested-form-with-has-many-through-not-saving-the-data-to-joining-table
+
+http://stackoverflow.com/questions/13506735/rails-has-many-through-nested-form
+
+38. 
+$ rails g scaffold physician name:string
+$ rails g scaffold patient name:string
+$ rails g scaffold appointment physician:references patient:references appt_date:datetime note:text
+
+added nested_form for hand reciepts model
+
+http://stackoverflow.com/questions/7000605/how-to-implement-has-many-through-relationships-with-mongoid-and-mongodb
+
+http://stackoverflow.com/questions/11480939/many-to-many-has-many-through-association-form-with-data-assigned-to-linking-m
+
+
+40. Generated migration script to add hand_reciept_id to Inventory Record model
+
+$ rails g migration add_hand_reciept_id_to_inventory_records hand_reciept_id:integer
+
+41. Generated migration script to add appt_time and modify appt_date to date
+
+$ rails g migration add_appt_time_to_appointments appt_time:time
+$ rails g migration change_appt_date_to_appointments appt_date:date
+
+42. To concatenate 2 files in select box
+
+<%= f.select(:hand_reciept_id, HandReciept.includes(:user).all.collect{|hr| [(hr.user.display_name + " - " + hr.reciept), hr.id]}) %>
+
+<%= f.select(:hand_reciept_id, HandReciept.includes(:user).all.collect{|hr| [(hr.user.display_name+ " - " + hr.reciept), hr.id]}, {:include_blank => 'Select Hand Reciept'}) %>
+
+<%= f.select(:hand_reciept_id, HandReciept.includes(:user).all.map{ |c| [(c.user.display_name + "-" + c.reciept), c.id] }, :include_blank => "- Choose Name -") %>
+
+
+43. How to reference a scope in other models
+
+defined a scope in user model called "no_hand_reciept_yet"
+This is out you reference to "no_hand_reciept_yet" in views\hand_reciepts\_form.html.erb
+
+<%= f.select(:user_id, User.no_hand_reciept_yet.map{|c|[c.display_name,c.id]})%>

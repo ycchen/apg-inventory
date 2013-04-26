@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
 # override the default "per_page" for kaminari pagination
   paginates_per 5
 
+  scope :no_hand_reciept_yet, User.where("id NOT IN (select user_id from hand_reciepts)")
+
 	def avatar
 		Gravatar.new(self.email).image_url
 	end

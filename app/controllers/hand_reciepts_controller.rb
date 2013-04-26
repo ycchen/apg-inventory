@@ -25,6 +25,10 @@ class HandRecieptsController < ApplicationController
   # GET /hand_reciepts/new.json
   def new
     @hand_reciept = HandReciept.new
+    @hand_reciept.inventories.build
+    @hand_reciept.locations.build
+    @hand_reciept.inventory_status.build
+    
     @hand_reciept[:reciept]= HandReciept.unique_reciept
     respond_to do |format|
       format.html # new.html.erb

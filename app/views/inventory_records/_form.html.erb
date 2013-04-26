@@ -11,10 +11,25 @@
     </div>
   <% end %>
 
+
+  <div class="control-group">
+    <%= f.label :hand_reciept , :class => 'control-label' %>
+    <div class="controls">
+      <%#= f.collection_select(:hand_reciept_id, HandReciept.all, :id, :reciept, {include_blank: true}) %>
+
+      <%#= f.select(:hand_reciept_id, HandReciept.includes(:user).all.collect{|hr| [(hr.user.display_name+ " - " + hr.reciept), hr.id]}, {:include_blank => 'Select Hand Reciept'}) %>
+    
+    <%= f.select(:hand_reciept_id, 
+    HandReciept.includes(:user).all.map{ |c| [(c.user.display_name + " - " + c.reciept), c.id] }, :include_blank => "Select Hand Reciept") %>
+      
+    </div>
+  </div>
+
+
   <div class="control-group">
     <%= f.label :user , :class => 'control-label' %>
     <div class="controls">
-      <%= f.collection_select(:user_id, User.all, :id, :display_name, {include_blank: true}) %>
+      <%= f.collection_select(:user_id, User.all, :id, :display_name, {include_blank: 'Select User'}) %>
     </div>
   </div>
   
@@ -32,9 +47,9 @@
  -->
 <!--         <%= f.select(:inventory_id, Inventory.unregistered.collect{|x| [x.name, x.id]},{}, {:multiple => true, :size => 10}) %> -->
 
-        <%= select_tag("inventory_record[inventory_id][]", options_from_collection_for_select(Inventory.all,"id","name"), :multiple =>true ) %>
+        <%= select_tag(:inventory_id, options_from_collection_for_select(Inventory.all,"id","name")) %>
       <% else %>
-        <%= f.collection_select(:inventory_id, Inventory.all, :id, :name, {include_blank: true}) %>
+        <%= f.collection_select(:inventory_id, Inventory.all, :id, :name, {include_blank: 'Select Inventory'}) %>
       <% end %>
     </div>
   </div>
@@ -42,13 +57,13 @@
   <div class="control-group">
     <%= f.label :inventory_status, :class => 'control-label' %>
     <div class="controls">
-      <%= f.collection_select(:inventory_status_id, InventoryStatus.all, :id, :name, {include_blank: true}) %>
+      <%= f.collection_select(:inventory_status_id, InventoryStatus.all, :id, :name, {include_blank: 'Select Status'}) %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :location, :class => 'control-label'  %>
     <div class="controls">
-      <%= f.collection_select(:location_id, Location.all, :id, :name, {include_blank: true})%>
+      <%= f.collection_select(:location_id, Location.all, :id, :name, {include_blank: 'Select Location'})%>
     </div>
   </div>
   <!-- 

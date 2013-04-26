@@ -9,6 +9,9 @@ class Inventory < ActiveRecord::Base
   has_many :inventory_categorys
   has_many :categories, :through => :inventory_categorys
 
+  has_many :hand_reciepts, :through => :hand_reciept_details
+  accepts_nested_attributes_for :hand_reciepts
+  
   validates :barcode, :presence => true
   validates :description, :presence => true
   validates :name, :presence => true

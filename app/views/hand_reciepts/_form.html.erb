@@ -1,4 +1,4 @@
-<%= form_for(@hand_reciept, :html => {:class => 'form-horizontal'}) do |f| %>
+<%= nested_form_for(@hand_reciept, :html => {:class => 'form-horizontal'}) do |f| %>
   <% if @hand_reciept.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@hand_reciept.errors.count, "error") %> prohibited this hand_reciept from being saved:</h2>
@@ -17,12 +17,58 @@
       <%= f.text_field :reciept,:readonly => true, :class => 'text_field'%>
     </div>
   </div>
+
   <div class="control-group">
     <%= f.label :user, :class => 'control-label' %>
     <div class="controls">
-      <%= f.collection_select(:user_id, User.all, :id, :display_name)%>
+      <% if params[:action] == 'new' %>
+        <%= f.select(:user_id, User.no_hand_reciept_yet.map{|c|[c.display_name,c.id]}, {:include_blank => 'Select User'})%>
+      <% else %>
+        <%= f.collection_select(:user_id, User.all, :id, :display_name)%>
+      <% end %>
     </div>
   </div>
+
+
+<!-- 
+  <%= f.fields_for :inventories do |builder| %>
+  <div class="control-group">
+    <%= builder.label :inventory,:class => 'control-label'%>
+    <div class="controls">
+    <%= builder.collection_select(:id, Inventory.all, :id, :name) %>
+    </div>
+  </div>
+  <% end %>
+
+  <%= f.fields_for :locations do |builder| %>
+  <div class="control-group">
+    <%= builder.label :location,:class => 'control-label'%>
+    <div class="controls">
+    <%= builder.collection_select(:id, Location.all, :id, :name) %>
+    </div>
+  </div>
+  <% end %>
+  
+  <%= f.fields_for :inventory_status do |builder| %>
+  <div class="control-group">
+    <%= builder.label :inventory_status,:class => 'control-label'%>
+    <div class="controls">
+    <%= builder.collection_select(:id, InventoryStatus.all, :id, :name) %>
+    </div>
+  </div>
+  <% end %>
+ -->  
+
+
+<!--   <% f.fields_for :inventories do |builder| %>
+  <div class="control-group">
+    <%= builder.label :content, "Inventory" %>
+    <div class="controls">
+    <%= builder.collection_select(:id, Inventory.all, :id, :name) %>
+    </div>
+  </div>
+  <% end %> -->
+  
 
   <div class="form-actions">
     <%= f.submit class: "btn btn-primary" %>
