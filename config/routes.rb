@@ -1,7 +1,12 @@
 ARLInventory::Application.routes.draw do
+  resources :appointments
+  resources :patients
+  resources :physicians
+  resources :hand_reciept_details
+  resources :kits
+  resources :budgets
+  resources :component_models
   resources :hand_reciepts
-
-
   # get "users/index"
 
   match '/users', :to => 'users#index', :as => "all_users", :via => "get"
@@ -12,21 +17,13 @@ ARLInventory::Application.routes.draw do
   resources :categories
 
   # get "dashboard/show"
-
   resource :dashboard, :only => [:show]
-
   resources :roles_users
-
   resources :roles
-
   resources :inventory_records
-
   resources :locations
-
   resources :inventory_statuses
-
   resources :inventories
-
   get "home/index"
 
   devise_for :users

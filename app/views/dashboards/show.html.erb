@@ -3,48 +3,38 @@
 	<div class="row">
 		<div class="span12">
 			<div class="grey-box">
-				<h3>My inventories</h3>
+				<h3>Dashboard</h3>
 				<table class="table table-striped">
 					<tr>
-						<th>Hand Reciept</th>
-						<th>Owner of HR</th>
-		                <th>End User</th>
+		                <th>User</th>
 		                <th>Inventory</th>
-		                <th>Status</th>
+		                <th>Inventory status</th>
 		                <th>Location</th>
-		                <!-- 
 		                <th>Latitude</th>
 		                <th>Longitude</th>
 		                <th></th>
 		                <th></th>
 		                <th></th>
-		                 -->
 	              	</tr>
 					<% @myhandreciepts.each do |inventory_record| %>
 					<tr>
-						<td><%= inventory_record.hand_reciept.reciept %></td>
-						<td><%= inventory_record.hand_reciept.user.display_name %></td>
 						<td><%= inventory_record.user.display_name %></td>
 						<td><%= inventory_record.inventory.name %></td>
 						<td><%= inventory_record.inventory_status.name %></td>
 						<td><%= inventory_record.location.name %></td>
-						<!-- 
 						<td><%= inventory_record.location.latitude %></td>
 						<td><%= inventory_record.location.longitude %></td>
-						 -->
 					</tr>	
 					<% end %>
 				</table>
-
 				
 				<% if current_user.hand_reciept.nil? %>
-					No hand reciept
+					No Hand Reciept for you! <%= current_user.display_name %>
 				<% end %>
 				<br/>
-				<% if @myhandreciepts.nil? %>
-					No Inventory for <%= current_user.display_name %>
+				<% if !@myhandreciepts.nil? %>
+					No Inventory for you! <%= current_user.display_name %>
 				<% end %>
-				<br/>
 				<!-- 
 				<% @HandRecieptsCount.each do |paper, count| %>
 					<%= paper %>, <%= count %><br/>
