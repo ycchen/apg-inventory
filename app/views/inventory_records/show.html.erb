@@ -4,9 +4,22 @@
       <div class="grey-box">
         <p id="notice"><%= notice %></p>
 
+
+        <p>
+          <b>Hand Reciept Owner:</b>
+          <%= @inventory_record.hand_reciept.user.display_name %>
+          (<%= @inventory_record.hand_reciept.reciept %>)
+        </p>
+        <p>
+          <b>Hand Reciept Owner Email:</b>
+          <%= @inventory_record.hand_reciept.user.email %>
+        </p>
         <p>
           <b>User:</b>
           <%= @inventory_record.user.display_name %>
+          <!-- <pre>
+          <%= @inventory_record.user.inspect %>  
+          </pre> -->
         </p>
 
         <p>
@@ -14,6 +27,13 @@
           <%= @inventory_record.inventory.name %>
         </p>
 
+        <p>
+          <b>Category:</b>
+          <% @inventory_record.inventory.inventory_categorys.each do |c| %>  
+            <pre><%= c.category.name %></pre>
+          <% end %>
+        </p>
+        
         <p>
           <b>Inventory status:</b>
           <%= @inventory_record.inventory_status.name %>

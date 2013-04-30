@@ -11,10 +11,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130416195022) do
+ActiveRecord::Schema.define(:version => 20130423203548) do
+
+  create_table "appointments", :force => true do |t|
+    t.integer  "physician_id"
+    t.integer  "patient_id"
+    t.date     "appt_date"
+    t.text     "note"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.time     "appt_time"
+  end
+
+  add_index "appointments", ["patient_id"], :name => "index_appointments_on_patient_id"
+  add_index "appointments", ["physician_id"], :name => "index_appointments_on_physician_id"
 
   create_table "brands", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "budgets", :force => true do |t|
+    t.string   "name"
+    t.string   "number"
+    t.date     "starts_at"
+    t.date     "ends_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -26,12 +48,40 @@ ActiveRecord::Schema.define(:version => 20130416195022) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "component_models", :force => true do |t|
+    t.integer  "brand_id"
+    t.string   "name"
+    t.text     "description"
+    t.boolean  "training_required"
+    t.string   "autocomplete"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "component_models", ["brand_id"], :name => "index_component_models_on_brand_id"
+
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  create_table "hand_reciept_details", :force => true do |t|
+    t.integer  "hand_reciept_id"
+    t.integer  "inventory_id"
+    t.integer  "inventory_status_id"
+    t.integer  "location_id"
+    t.integer  "user_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "hand_reciept_details", ["hand_reciept_id"], :name => "index_hand_reciept_details_on_hand_reciept_id"
+  add_index "hand_reciept_details", ["inventory_id"], :name => "index_hand_reciept_details_on_inventory_id"
+  add_index "hand_reciept_details", ["inventory_status_id"], :name => "index_hand_reciept_details_on_inventory_status_id"
+  add_index "hand_reciept_details", ["location_id"], :name => "index_hand_reciept_details_on_location_id"
+  add_index "hand_reciept_details", ["user_id"], :name => "index_hand_reciept_details_on_user_id"
 
   create_table "hand_reciepts", :force => true do |t|
     t.string   "reciept"
@@ -41,6 +91,22 @@ ActiveRecord::Schema.define(:version => 20130416195022) do
   end
 
   add_index "hand_reciepts", ["user_id"], :name => "index_hand_reciepts_on_user_id"
+
+  create_table "hand_reciepts_inventories", :force => true do |t|
+    t.integer  "hand_reciept_id"
+    t.integer  "inventory_id"
+    t.integer  "inventory_status_id"
+    t.integer  "location_id"
+    t.integer  "user_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "hand_reciepts_inventories", ["hand_reciept_id"], :name => "index_hand_reciepts_inventories_on_hand_reciept_id"
+  add_index "hand_reciepts_inventories", ["inventory_id"], :name => "index_hand_reciepts_inventories_on_inventory_id"
+  add_index "hand_reciepts_inventories", ["inventory_status_id"], :name => "index_hand_reciepts_inventories_on_inventory_status_id"
+  add_index "hand_reciepts_inventories", ["location_id"], :name => "index_hand_reciepts_inventories_on_location_id"
+  add_index "hand_reciepts_inventories", ["user_id"], :name => "index_hand_reciepts_inventories_on_user_id"
 
   create_table "inventories", :force => true do |t|
     t.string   "name"
@@ -71,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20130416195022) do
     t.string   "longitude"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.integer  "hand_reciept_id"
   end
 
   add_index "inventory_records", ["inventory_id"], :name => "index_inventory_records_on_inventory_id"
@@ -84,11 +151,36 @@ ActiveRecord::Schema.define(:version => 20130416195022) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "kits", :force => true do |t|
+    t.integer  "location_id"
+    t.integer  "budget_id"
+    t.boolean  "tombstoned"
+    t.boolean  "checkoutable"
+    t.decimal  "cost"
+    t.boolean  "insured"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "kits", ["location_id"], :name => "index_kits_on_location_id"
+
   create_table "locations", :force => true do |t|
     t.string   "name"
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "patients", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "physicians", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

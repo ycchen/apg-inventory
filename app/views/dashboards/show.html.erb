@@ -12,6 +12,8 @@
 		                <th>Location</th>
 		                <th>Latitude</th>
 		                <th>Longitude</th>
+		                <th>Created At</th>
+		                <th>Updated At</th>
 		                <th></th>
 		                <th></th>
 		                <th></th>
@@ -19,22 +21,16 @@
 					<% @myhandreciepts.each do |inventory_record| %>
 					<tr>
 						<td><%= inventory_record.user.display_name %></td>
-						<td><%= inventory_record.inventory.name %></td>
+						<td><%= link_to "#{inventory_record.inventory.name}", inventory_path(inventory_record) %></td>
 						<td><%= inventory_record.inventory_status.name %></td>
 						<td><%= inventory_record.location.name %></td>
 						<td><%= inventory_record.location.latitude %></td>
 						<td><%= inventory_record.location.longitude %></td>
+						<td><%= inventory_record.created_at.to_s(:short) %></td>
+						<td><%= inventory_record.updated_at.to_s(:short) %></td>
 					</tr>	
 					<% end %>
 				</table>
-				
-				<% if current_user.hand_reciept.nil? %>
-					No Hand Reciept for you! <%= current_user.display_name %>
-				<% end %>
-				<br/>
-				<% if !@myhandreciepts.nil? %>
-					No Inventory for you! <%= current_user.display_name %>
-				<% end %>
 				<!-- 
 				<% @HandRecieptsCount.each do |paper, count| %>
 					<%= paper %>, <%= count %><br/>

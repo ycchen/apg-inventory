@@ -20,6 +20,7 @@ gem 'kaminari'					# pagination
 gem 'draper'					# model/view decorators (presenters)
 
 
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -37,6 +38,8 @@ group :development, :test do
 	gem 'factory_girl_rails'	# fixtures replacment 	
 	gem 'capybara'				# interation testing tools for rack based web application
 	gem 'faker'					#  generate fake data
+	gem 'awesome_print'			# readable output in rails console and irb
+	gem 'hirb'					# readable output
 end
 
 gem 'jquery-rails'

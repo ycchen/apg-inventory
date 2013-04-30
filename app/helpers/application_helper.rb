@@ -21,4 +21,12 @@ module ApplicationHelper
 		# link_to title.titleize, {:sort => column, :direction => direction}, :class => css_class
 	end
 
+
+	def show_debug
+		if Rails.env.development?
+			request.env.each do |e|
+				debug("#{e[0]} =  #{e[1]}")
+			end
+		end
+	end
 end

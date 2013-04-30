@@ -3,9 +3,9 @@ class DashboardsController < ApplicationController
 
   def show
   	if current_user.hand_reciept.nil?
-		@myhandreciepts = current_user.inventory_records.order("created_at desc")		
+		@myhandreciepts = current_user.inventory_records.order("updated_at desc")		
   	else
-		@myhandreciepts = current_user.hand_reciept.inventory_records.order("created_at desc")
+		@myhandreciepts = current_user.hand_reciept.inventory_records.order("updated_at desc")
   	end
 
   	@HandRecieptsCount = InventoryRecord.includes(:user, :inventory, :inventory_status).count(:group => :user_id)

@@ -7,7 +7,7 @@ class HomeController < ApplicationController
 		# else
 		# 	@list = InventoryRecord.includes(:user, :inventory, :inventory_status, :location).order('created_at desc')
 		# end
-		@list = InventoryRecord.includes(:user, :inventory, :inventory_status, :location).order('created_at desc')
+		@list = InventoryRecord.includes(:user, :inventory, :inventory_status, :location).order('updated_at desc')
 	end
 
 end

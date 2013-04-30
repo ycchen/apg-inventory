@@ -307,6 +307,20 @@ http://guides.rubyonrails.org/debugging_rails_applications.html
 
 <%= @location.inspect %>
 
+4. Rails.logger.debug()
+
+5. using irb console to test the condition
+
+t = "hello"
+c = "world"
+# if (t == c )
+    desc 
+  else 
+    asc
+
+v = (t == c) ? "desc" : "asc"
+# v = "asc"
+
 
 22. Generated following models
 
@@ -578,3 +592,29 @@ params[:sort] ||= "created_at desc"
     direction = (column == sort_column && sort_direction =="asc") ? "desc" : "asc"
     link_to title.titleize, :sort => column, :direction => direction
   end
+
+46. Make rails console just output the query only
+# add nil at the end of each query commands/statements
+$ users = User.all; nil
+
+# best output on rails console using awesome_print and hirb (hirb does not work with rails 3.2)
+
+47. use Ruby constant "RUBY_PLATFORM" to find out which OS ruby is runnin gon
+
+<%= RUBY_PLATFORM %> i386-mingw32, i686-linux
+
+# add show_debug method to dump request scope variables in helpers\application_helper.rb
+
+  def show_debug
+    if Rails.env.development?
+      request.env.each do |e|
+        debug("#{e[0]} =  #{e[1]}")
+      end
+    end
+  end
+
+  <% if Rails.env.development? %>
+    <% request.env.each do |e| %>
+      <%= debug(e[0].to_s + ' = ' + e[1].to_s) %>
+    <% end %>
+  <% end %>  
