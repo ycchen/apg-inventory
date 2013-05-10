@@ -617,4 +617,6 @@ $ users = User.all; nil
     <% request.env.each do |e| %>
       <%= debug(e[0].to_s + ' = ' + e[1].to_s) %>
     <% end %>
-  <% end %>  
+  <% end %>
+48. committed for updated sortable method to ensure the arrow image shows up
+  

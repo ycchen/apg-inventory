@@ -14,11 +14,11 @@ module ApplicationHelper
 	def sortable(column, title = nil)
 		title ||= column.titleize
 		direction = (column == params[:sort] && sort_direction == "asc") ? "desc" : "asc"
-		# css_class = column == sort_column ? "current #{sort_direction}" : nil
-		Rails.logger.debug('before ' + sort_direction)
+		css_class = (column == params[:sort]) ? "current #{sort_direction}" : nil
+		# Rails.logger.debug('before sort=' + sort_direction + ' params[:sort]='+ params[:sort].to_s+ ' sort_column=' + sort_column +  ' column=' + column + ' class='+ css_class.to_s)
 		# direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
-		link_to title.titleize, :sort => column, :direction => direction
-		# link_to title.titleize, {:sort => column, :direction => direction}, :class => css_class
+		# link_to title.titleize, :sort => column, :direction => direction
+		link_to title.titleize, {:sort => column, :direction => direction}, :class => css_class
 	end
 
 
