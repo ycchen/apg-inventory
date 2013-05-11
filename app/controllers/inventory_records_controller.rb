@@ -1,6 +1,6 @@
 class InventoryRecordsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :isAdmin?
+  before_filter :isAdmin?, :only=> [:new, :edit, :update, :destroy]
   # make both method accessable by the view #
   helper_method :sort_column, :sort_direction
   # GET /inventory_records

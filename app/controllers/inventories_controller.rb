@@ -1,6 +1,6 @@
 class InventoriesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :isAdmin?
+  # before_filter :isAdmin?, :only =>[:new, :edit, :update, :destroy]
   load_and_authorize_resource
   
   # GET /inventories

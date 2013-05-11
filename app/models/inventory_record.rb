@@ -27,8 +27,8 @@ class InventoryRecord < ActiveRecord::Base
       find(:all, 
            :include => [:user, :inventory, :location, :hand_reciept],
            :conditions =>
-           ['users.display_name LIKE ? OR inventories.name LIKE ? OR locations.name LIKE ? OR hand_reciepts.reciept LIKE ?',
-            "%#{search}%","%#{search}%","%#{search}%","%#{search}%"],
+           ['users.display_name LIKE ? OR inventories.name LIKE ? OR inventories.stocknumber LIKE? OR inventories.barcode LIKE ? OR locations.name LIKE ? OR hand_reciepts.reciept LIKE ?',
+            "%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%","%#{search}%"],
            :order => "inventory_records.created_at desc")
     else
       find(:all)

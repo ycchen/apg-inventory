@@ -619,4 +619,19 @@ $ users = User.all; nil
     <% end %>
   <% end %>
 48. committed for updated sortable method to ensure the arrow image shows up
-  
+
+49. restrict access for inventory controller on edit, update, and destroy, and allows users can view inventory list and inventory details, hidde edit option for non admin user 
+
+add to all view links where you want to have access control
+
+<% if can? :manage, @inventory %>
+  <%= link_to  %>
+<% end %>
+
+50. modified search method to add couple more fields to be search. Enable search form for all users.
+models\inventory_record.rb
+
+def self.search(search)
+
+end
+51. committed - Modified search query, added can? on views 

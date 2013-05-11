@@ -14,8 +14,9 @@
 				  <%= @hand_reciept.user.display_name %>
 				</p>
 
-
-				<%= link_to 'Edit', edit_hand_reciept_path(@hand_reciept) %> |
+				<% if can? :manage, @hand_reciept %>
+					<%= link_to 'Edit', edit_hand_reciept_path(@hand_reciept) %> |
+				<% end %>
 				<%= link_to 'Back', hand_reciepts_path %>
 			</div>      
 		</div>

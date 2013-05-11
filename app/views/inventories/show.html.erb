@@ -31,8 +31,9 @@
             <%= @inventory.purchase_date %>
           </p>
 
-
-          <%= link_to 'Edit', edit_inventory_path(@inventory) , class: "btn btn-primary" %> |
+          <% if can? :manage, @inventory %>
+            <%= link_to 'Edit', edit_inventory_path(@inventory) , class: "btn btn-primary" %> |
+          <% end %>
           <%= link_to 'Back', inventories_path , class: "btn btn-primary" %>
         <!-- </div> -->
       </div>

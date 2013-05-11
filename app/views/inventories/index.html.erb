@@ -4,6 +4,7 @@
           <div class="grey-box">
             <h3>Listing Inventories</h3>
              <%= paginate @inventories %>
+
             <table class="table table-striped">
               <tr>
                 <th>Stocknumber</th>
@@ -25,20 +26,21 @@
                 <td><%= inventory.barcode %></td>
                 <td><%= inventory.purchase_date %></td>
                 <td></td>
-                
-                <td><%= link_to 'Show', inventory %></td>
-                <td><%= link_to 'Edit', edit_inventory_path(inventory) %></td>
-                <td><%= link_to 'Destroy', inventory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <td><%= link_to 'Show', inventory %>
+                <% if can? :manage, @inventory %>
+                  <td><%= link_to 'Edit', edit_inventory_path(inventory) %></td>
+                  <td><%= link_to 'Destroy', inventory, method: :delete, data: { confirm: 'Are you sure?' } %> </td>
+                <% end %>
               </tr>
             <% end %>
             </table>
 
-            <br />
             <%= paginate @inventories %>
-
             <br />
 
-            <%= link_to 'New Inventory', new_inventory_path, class: "btn btn-primary" %>
+            <% if can? :manage, @inventory %>
+              <%= link_to 'New Inventory', new_inventory_path, class: "btn btn-primary" %>
+            <% end %>
         </div>      
       </div>
   </div>

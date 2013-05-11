@@ -16,8 +16,6 @@
                 <th>Longitude</th>
                  -->
                 <th></th>
-                <th></th>
-                <th></th>
               </tr>
 
             <% @inventory_records.each do |inventory_record| %>
@@ -34,15 +32,18 @@
                 <td><%= inventory_record.location.longitude %></td>
                  -->
                 <td><%= link_to 'Show', inventory_record %></td>
-                <td><%= link_to 'Edit', edit_inventory_record_path(inventory_record) %></td>
-                <td><%= link_to 'Destroy', inventory_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <% if can? :mamage, @inventory_records %>
+                    <td><%= link_to 'Edit', edit_inventory_record_path(inventory_record) %></td>
+                    <td><%= link_to 'Destroy', inventory_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <% end %>
               </tr>
             <% end %>
             </table>
 
             <br />
-
-            <%= link_to 'New Inventory record', new_inventory_record_path, class: "btn btn-primary" %>
+            <% if can? :manage, @inventory_records %>
+              <%= link_to 'New Inventory record', new_inventory_record_path, class: "btn btn-primary" %>
+            <% end %>
 
             <br/>
             <%= gmaps4rails(@location_json) %>
